@@ -61,14 +61,17 @@ public class SignInFragment extends Fragment {
                 String signInEmail = fsigninEmail.getText().toString();
                 String signInPassword = fsigninPassword.getText().toString();
                 if (!TextUtils.isEmpty(signInEmail) && !TextUtils.isEmpty(signInPassword)) {
-                    firebaseAuth.signInWithEmailAndPassword(signInEmail,signInPassword);
-                }
-                else {
-                    Snackbar.make(view,"verfiy inputs",Snackbar.LENGTH_SHORT).show();
+                    firebaseAuth.signInWithEmailAndPassword(signInEmail, signInPassword);
+                } else {
+                    Snackbar.make(getActivity().getCurrentFocus(), "verfiy inputs", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.fsignin_register:
-
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new RegisterFragment())
+                        .addToBackStack(null)
+                        .commit();
                 break;
         }
     }

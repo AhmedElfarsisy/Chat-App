@@ -9,6 +9,7 @@ import android.os.Handler;
 
 import com.eng.elfarsisy.who.R;
 import com.eng.elfarsisy.who.myui.fragment.SignInFragment;
+import com.eng.elfarsisy.who.myui.fragment.SliderFragment;
 import com.eng.elfarsisy.who.myui.fragment.SplashFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,15 +32,18 @@ public class Start extends AppCompatActivity {
             public void run() {
 
                 if (currentUser != null) {
-                    startActivity(new Intent(Start.this,MainActivity.class));
+                    startActivity(new Intent(Start.this, MainActivity.class));
                     finish();
 
                 } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, new SignInFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, new SliderFragment()).commit();
                 }
             }
         }, 2000);
 
+    }
+    public void moveToSignInFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new SignInFragment()).commit();
 
     }
 }
