@@ -25,7 +25,7 @@ public class Start extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new SplashFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.containerF, new SplashFragment()).commit();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -36,14 +36,11 @@ public class Start extends AppCompatActivity {
                     finish();
 
                 } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container, new SliderFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.containerF, new SliderFragment()).commit();
                 }
             }
         }, 2000);
 
     }
-    public void moveToSignInFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new SignInFragment()).commit();
 
-    }
 }

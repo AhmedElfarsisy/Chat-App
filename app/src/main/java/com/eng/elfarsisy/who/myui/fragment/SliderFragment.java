@@ -54,7 +54,7 @@ public class SliderFragment extends Fragment {
         sliderList.add(new Slider(R.drawable.celebratingphoto, "and celebrating togther"));
 
         sliderPager = view.findViewById(R.id.sliderPager);
-        skipbtn = view.findViewById(R.id.skipbtn);
+        skipbtn = (Button) view.findViewById(R.id.skipbtn);
         SliderAdapter sliderAdapter = new SliderAdapter(container.getContext(), sliderList);
 
         sliderPager.setAdapter(sliderAdapter);
@@ -62,14 +62,12 @@ public class SliderFragment extends Fragment {
         skipbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Start().moveToSignInFragment();
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerF, new SignInFragment()).commit();
             }
         });
         return view;
     }
-
-
-
 
 
 }
