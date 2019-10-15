@@ -62,7 +62,7 @@ public class SignInFragment extends Fragment {
         fsigninRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerF, new RegisterFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("SignInFragment").replace(R.id.containerF, new RegisterFragment()).commit();
             }
         });
         fsigninButton.setOnClickListener(new View.OnClickListener() {

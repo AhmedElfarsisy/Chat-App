@@ -9,7 +9,18 @@ public class User {
     private String personalimage;
     private Object stampTime;
 
-    public User(String name, String email, String phone, String personalimage, Object stampTime) {
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+    private String userKey;
+
+
+    public User(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
