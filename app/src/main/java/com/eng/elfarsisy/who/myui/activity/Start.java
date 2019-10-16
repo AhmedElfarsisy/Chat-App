@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Start extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
+    int userbefor = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,13 @@ public class Start extends AppCompatActivity {
 
                 if (currentUser != null) {
                     startActivity(new Intent(Start.this, MainActivity.class));
+                    userbefor++;
                     finish();
+
+
+                } else if (userbefor > 0) {
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.containerF, new SignInFragment()).commit();
 
                 } else {
                     getSupportFragmentManager().beginTransaction().replace(R.id.containerF, new SliderFragment()).commit();

@@ -59,6 +59,7 @@ public class SliderFragment extends Fragment {
 
         sliderPager.setAdapter(sliderAdapter);
 
+
         skipbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

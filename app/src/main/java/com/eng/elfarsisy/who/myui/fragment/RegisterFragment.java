@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -75,68 +76,75 @@ public class RegisterFragment extends Fragment {
         RegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity().getApplication(), "clicked", Toast.LENGTH_SHORT).show();
                 String regName = RegisterName.getText().toString();
                 String regEmail = RegisterEmail.getText().toString();
                 String regPasssword = RegisterPassword.getText().toString();
                 String regPasssword2 = RegisterPassword2.getText().toString();
-                String regphone = RegisterPhone.getText().toString();
-                createNewUser(regEmail, regPasssword, regPasssword2, regName, regphone);
-            }
-        });
-        return view;
-    }
+                String regPhone = RegisterPhone.getText().toString();
+                Toast.makeText(getActivity().getApplication(), "intial", Toast.LENGTH_SHORT).show();
+//   && regPasssword == regPasssword2
+                if (!TextUtils.isEmpty(regEmail)&& !TextUtils.isEmpty(regName)&& !TextUtils.isEmpty(regPhone)&& !TextUtils.isEmpty(regPasssword)&&TextUtils.equals(regPasssword,regPasssword2)) {
 
-    private void createNewUser(String regEmail, String regPasssword, String regPasssword2, String regName, String regPhone) {
-        if (!TextUtils.isEmpty(regEmail) && !TextUtils.isEmpty(regPasssword) && regPasssword == regPasssword2) {
-            RegisterButton.setVisibility(View.INVISIBLE);
-            RegisterprogressBar.setVisibility(View.VISIBLE);
-            firebaseAuth.createUserWithEmailAndPassword(regEmail, regPasssword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                @Override
-                public void onSuccess(AuthResult authResult) {
-                    RegisterButton.setVisibility(View.VISIBLE);
-                    RegisterprogressBar.setVisibility(View.INVISIBLE);
-                    Snackbar.make(getView(), "welcome with us", Snackbar.LENGTH_SHORT).show();
-                    User user = new User(regName, regEmail, regPhone);
-                    storageReference = FirebaseStorage.getInstance().getReference().child("Users_photos");
-
-                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                    DatabaseReference databaseReference = firebaseDatabase.getReference("Users").push();
-                    String Key = databaseReference.getKey();
-                    user.setUserKey(Key);
-                    databaseReference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    RegisterButton.setVisibility(View.INVISIBLE);
+                    RegisterprogressBar.setVisibility(View.VISIBLE);
+                    firebaseAuth.createUserWithEmailAndPassword(regEmail, regPasssword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
+                        public void onSuccess(AuthResult authResult) {
+                            Toast.makeText(getActivity().getApplication(), "created", Toast.LENGTH_SHORT).show();
 
                             RegisterButton.setVisibility(View.VISIBLE);
                             RegisterprogressBar.setVisibility(View.INVISIBLE);
-                            Snackbar.make(getView(), "thanks for your patience", Snackbar.LENGTH_SHORT);
-                            startActivity(new Intent(getActivity(), MainActivity.class));
+                            Snackbar.make(getView(), "welcome with us", Snackbar.LENGTH_SHORT).show();
+                            User user = new User(regName, regEmail, regPhone);
+                            storageReference = FirebaseStorage.getInstance().getReference().child("Users_photos");
+
+                            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                            DatabaseReference databaseReference = firebaseDatabase.getReference("Users").push();
+                            String Key = databaseReference.getKey();
+                            user.setUserKey(Key);
+                            databaseReference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getActivity().getApplication(), "finished", Toast.LENGTH_SHORT).show();
+
+                                    RegisterButton.setVisibility(View.VISIBLE);
+                                    RegisterprogressBar.setVisibility(View.INVISIBLE);
+                                    Snackbar.make(getView(), "thanks for your patience", Snackbar.LENGTH_SHORT);
+                                    startActivity(new Intent(getActivity(), MainActivity.class));
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity().getApplication(), "faild", Toast.LENGTH_SHORT).show();
+
+                                    RegisterButton.setVisibility(View.VISIBLE);
+                                    RegisterprogressBar.setVisibility(View.INVISIBLE);
+                                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT);
+                                }
+                            });
+
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+
                             RegisterButton.setVisibility(View.VISIBLE);
                             RegisterprogressBar.setVisibility(View.INVISIBLE);
-                            Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT);
+                            Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
                         }
                     });
+                }
+                else {
+                    Toast.makeText(getActivity().getApplication(), "haha", Toast.LENGTH_SHORT).show();
 
 
                 }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                    RegisterButton.setVisibility(View.VISIBLE);
-                    RegisterprogressBar.setVisibility(View.INVISIBLE);
-                    Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-
-        }
-
+            }
+        });
+        return view;
     }
 
 
