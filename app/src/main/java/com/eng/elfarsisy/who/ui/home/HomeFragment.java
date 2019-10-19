@@ -64,10 +64,8 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot friendData : dataSnapshot.getChildren()) {
 
                     User friend = friendData.getValue(User.class);
-                    if (!friend.equals(firebaseAuth.getCurrentUser())) {
+                    friendsList.add(friend);
 
-                        friendsList.add(friend);
-                    }
                 }
                 friendsAdapter = new FriendsAdapter(getActivity(), friendsList);
                 friendsRecycler.setAdapter(friendsAdapter);

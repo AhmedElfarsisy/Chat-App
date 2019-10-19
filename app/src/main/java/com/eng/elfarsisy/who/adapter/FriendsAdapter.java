@@ -1,6 +1,7 @@
 package com.eng.elfarsisy.who.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.eng.elfarsisy.who.R;
+import com.eng.elfarsisy.who.model.Massage;
 import com.eng.elfarsisy.who.model.User;
+import com.eng.elfarsisy.who.myui.activity.MassageActivity;
 
 import java.util.List;
 
@@ -58,8 +61,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsH
             super(itemView);
             friendImage = itemView.findViewById(R.id.friendImage);
             friendName = itemView.findViewById(R.id.frindename);
+            Intent massageIntent = new Intent(mContext, MassageActivity.class);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int Position = getAdapterPosition();
+                    massageIntent.putExtra("FriendKey",mData.get(Position).getUserKey());
 
-
+                    mContext.startActivity(massageIntent);
+                }
+            });
         }
     }
 }

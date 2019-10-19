@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".myui.activity.MassageActivity"></activity>
         <activity
             android:name=".myui.activity.Start"
             android:noHistory="true"
@@ -22,7 +23,7 @@
         <activity
             android:name=".myui.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
