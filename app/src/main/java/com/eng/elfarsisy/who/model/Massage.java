@@ -10,7 +10,10 @@ public class Massage {
     private String userName;
     Object timeStamp;
 
-    public Massage(String massageTxt, String userId, String userImage, String userName) {
+    public Massage() {
+    }
+
+    public Massage(String massageTxt, String userId) {
         this.massageTxt = massageTxt;
         this.userId = userId;
         this.userImage = userImage;

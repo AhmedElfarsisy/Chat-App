@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,13 +17,14 @@ import com.eng.elfarsisy.who.R;
 import com.eng.elfarsisy.who.model.Massage;
 import com.eng.elfarsisy.who.model.User;
 import com.eng.elfarsisy.who.myui.activity.MassageActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsHolder> {
     Context mContext;
     List<User> mData;
-
+FirebaseAuth firebaseAuth;
     public FriendsAdapter() {
     }
 
@@ -32,12 +34,13 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsH
     }
 
 
+
     @NonNull
     @Override
     public FriendsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+       firebaseAuth=FirebaseAuth.getInstance();
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.friend_item, parent, false);
-
-
         return new FriendsHolder(inflate);
     }
 
@@ -67,7 +70,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsH
                 public void onClick(View view) {
                     int Position = getAdapterPosition();
                     massageIntent.putExtra("FriendKey",mData.get(Position).getUserKey());
-
                     mContext.startActivity(massageIntent);
                 }
             });

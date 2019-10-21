@@ -40,7 +40,6 @@ public class MassageActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     FirebaseUser currentUser;
     List<Massage> massageList;
-    @BindView(R.id.massage_Recycler)
     RecyclerView massageRecycler;
     String FriendKey;
     MassageAdapter massageAdapter;
@@ -50,9 +49,10 @@ public class MassageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_massage);
         ButterKnife.bind(this);
+        massageRecycler = findViewById(R.id.massage_Recycler);
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
-        firebaseDatabase=FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
         FriendKey = getIntent().getExtras().getString("FriendKey");
         initMassage();
@@ -61,22 +61,23 @@ public class MassageActivity extends AppCompatActivity {
     }
 
     private void initMassage() {
-        massageRecycler.setLayoutManager(new LinearLayoutManager(this));
-        DatabaseReference massageReferance=firebaseDatabase.getReference("Massage").child(FriendKey).push();
-//        DatabaseReference massageRefrance = firebaseDatabase.getReference("Massage").child("FriendKey");
+        massageRecycler.setLayoutManager(new LinearLayoutManager(MassageActivity.this));
+
+        DatabaseReference massageReferance = firebaseDatabase.getReference("Massage").child(FriendKey);
         massageReferance.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 massageList = new ArrayList<>();
 
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                    Massage massage = snap.getValue(Massage.class);
+                  Massage massage=snap.getValue(Massage.class);
                     massageList.add(massage);
 
                 }
+
                 massageAdapter = new MassageAdapter(MassageActivity.this, massageList);
                 massageRecycler.setAdapter(massageAdapter);
-
+                massageAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -90,15 +91,15 @@ public class MassageActivity extends AppCompatActivity {
     public void onViewClicked() {
         String massagetxt = massageText.getText().toString();
 //        String senderImage=currentUser.getPhotoUrl().toString();
-        String Name=currentUser.getDisplayName();
-        String uId=currentUser.getUid();
-        Massage massage=new Massage(massagetxt,uId,null,Name);
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        DatabaseReference massageRef = firebaseDatabase.getReference("Massage").child("FriendKey").push();
+        String Name = currentUser.getDisplayName();
+        String uId = currentUser.getUid();
+        Massage massage = new Massage(massagetxt, uId);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference massageRef = firebaseDatabase.getReference("Massage").child(FriendKey).push();
         massageRef.setValue(massage).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-            massageText.setText("");
+                massageText.setText("");
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -107,7 +108,6 @@ public class MassageActivity extends AppCompatActivity {
                 Toast.makeText(MassageActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }

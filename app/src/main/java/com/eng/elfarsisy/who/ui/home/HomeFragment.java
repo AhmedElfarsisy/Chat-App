@@ -1,6 +1,7 @@
 package com.eng.elfarsisy.who.ui.home;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,12 +65,11 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot friendData : dataSnapshot.getChildren()) {
 
                     User friend = friendData.getValue(User.class);
+
                     friendsList.add(friend);
 
                 }
-                friendsAdapter = new FriendsAdapter(getActivity(), friendsList);
-                friendsRecycler.setAdapter(friendsAdapter);
-
+                setadapter(friendsList);
 
             }
 
@@ -79,6 +79,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+    }
+
+    private void setadapter(List<User> friendsList) {
+
+
+        friendsAdapter = new FriendsAdapter(getActivity(), friendsList);
+        friendsRecycler.setAdapter(friendsAdapter);
+        friendsAdapter.notifyDataSetChanged();
 
     }
 }
